@@ -1,0 +1,216 @@
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0d0d0d;
+  --surface:  #161616;
+  --accent:   #c8a96e;
+  --text:     #e8e8e8;
+  --muted:    #888;
+  --radius:   8px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Georgia', serif;
+  line-height: 1.7;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(13, 13, 13, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #222;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+nav a:hover { color: var(--accent); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=1600&q=80') center/cover no-repeat;
+}
+
+.hero-content h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: 12px;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.hero-content p {
+  font-size: 1.15rem;
+  color: #ccc;
+  letter-spacing: 3px;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2.2rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  transition: background 0.25s, color 0.25s;
+  border-radius: var(--radius);
+}
+
+.btn:hover { background: var(--accent); color: #000; }
+
+/* ── MENU ── */
+.menu {
+  padding: 6rem 3rem;
+  background: var(--bg);
+}
+
+.menu h2, .nosotros h2, .contacto h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--accent);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.menu-card {
+  background: var(--surface);
+  border: 1px solid #2a2a2a;
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: border-color 0.25s, transform 0.2s;
+}
+
+.menu-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.menu-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+.menu-card h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.menu-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text);
+}
+
+/* ── NOSOTROS ── */
+.nosotros {
+  padding: 6rem 3rem;
+  background: var(--surface);
+}
+
+.nosotros-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.nosotros-inner p {
+  color: var(--muted);
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+/* ── CONTACTO ── */
+.contacto {
+  padding: 6rem 3rem;
+  background: var(--bg);
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contacto-item .icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+
+.contacto-item p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #080808;
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  border-top: 1px solid #1a1a1a;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  nav { padding: 1rem 1.5rem; }
+  nav ul { gap: 1rem; }
+  .menu, .nosotros, .contacto { padding: 4rem 1.5rem; }
+}
