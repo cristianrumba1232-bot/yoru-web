@@ -191,23 +191,17 @@ nav a.logo.active { color: var(--arena); }
 /* ── SMOOTH HERO ── */
 .smooth-hero {
   position: relative;
-  /* min-height: el hero ocupa al menos toda la pantalla visible,
-     pero puede crecer si el contenido necesita más espacio al hacer zoom */
   min-height: calc(100dvh - var(--navbar-h));
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
 /* BG fijo dentro de la sección, con espacio extra abajo para parallax */
 .smooth-hero-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: -30%;
+  inset: 0;
   will-change: transform;
 }
 
@@ -225,19 +219,28 @@ nav a.logo.active { color: var(--arena); }
   background: rgba(0, 0, 0, 0.54);
 }
 
-/* Contenido en flujo normal — nunca se recorta, se centra naturalmente */
+/* Contenido: ocupa todo el espacio y organiza centro + hint */
 .smooth-hero-content {
   position: relative;
   z-index: 1;
   width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform, opacity;
+}
+
+/* Grupo central: logo, tagline, botones — centrado verticalmente */
+.smooth-hero-center {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 3rem 2rem 0;
   gap: 1.25rem;
-  will-change: transform, opacity;
 }
 
 /* Logo: se adapta al viewport con clamp para no salirse en zoom */
@@ -255,18 +258,17 @@ nav a.logo.active { color: var(--arena); }
   transform-origin: center;
 }
 
-/* Indicador de scroll — anclado al fondo */
+/* Indicador de scroll — en flujo normal, siempre debajo del contenido */
 .smooth-hero-hint {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   pointer-events: none;
+  padding-bottom: 2.5rem;
+  flex-shrink: 0;
 }
 
 .smooth-hero-hint-kanji {
@@ -292,7 +294,7 @@ nav a.logo.active { color: var(--arena); }
 }
 
 @media (max-width: 600px) {
-  .smooth-hero-hint { bottom: 1.25rem; }
+  .smooth-hero-hint { padding-bottom: 1.25rem; }
 }
 
 .hero-content h1 {

@@ -1,3 +1,5 @@
+import PageTransition, { FadeInSection } from '../components/PageTransition'
+
 const IconPin = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -26,46 +28,34 @@ const IconMail = () => (
 )
 
 const contactoItems = [
-  {
-    icon: <IconPin />,
-    label: 'Ubicación',
-    value: 'Paracas 481, Salamanca, Ate',
-  },
-  {
-    icon: <IconClock />,
-    label: 'Horario',
-    value: <>Todos los días excepto martes<br />6:00 pm – 11:00 pm</>,
-  },
-  {
-    icon: <IconPhone />,
-    label: 'Teléfono',
-    value: '+51 987 654 321',
-  },
-  {
-    icon: <IconMail />,
-    label: 'Reservas',
-    value: 'reservas@yorurestaurante.com',
-  },
+  { icon: <IconPin />, label: 'Ubicación', value: 'Paracas 481, Salamanca, Ate' },
+  { icon: <IconClock />, label: 'Horario', value: <>Todos los días excepto martes<br />6:00 pm – 11:00 pm</> },
+  { icon: <IconPhone />, label: 'Teléfono', value: '+51 987 654 321' },
+  { icon: <IconMail />, label: 'Reservas', value: 'reservas@yorurestaurante.com' },
 ]
 
 export default function Contacto() {
   return (
-    <div className="page contacto-page">
-      <section className="contacto">
-        <div className="contacto-header">
-          <p className="contacto-label">夜 · Encuéntranos</p>
-          <h2>Contacto</h2>
-        </div>
-        <div className="contacto-grid">
-          {contactoItems.map(item => (
-            <div className="contacto-item" key={item.label}>
-              <span className="contacto-icon">{item.icon}</span>
-              <p className="contacto-item-label">{item.label}</p>
-              <p>{item.value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
+    <PageTransition>
+      <div className="page contacto-page">
+        <section className="contacto">
+          <FadeInSection className="contacto-header">
+            <p className="contacto-label">夜 · Encuéntranos</p>
+            <h2>Contacto</h2>
+          </FadeInSection>
+          <div className="contacto-grid">
+            {contactoItems.map((item, i) => (
+              <FadeInSection key={item.label} delay={i * 0.1}>
+                <div className="contacto-item">
+                  <span className="contacto-icon">{item.icon}</span>
+                  <p className="contacto-item-label">{item.label}</p>
+                  <p>{item.value}</p>
+                </div>
+              </FadeInSection>
+            ))}
+          </div>
+        </section>
+      </div>
+    </PageTransition>
   )
 }

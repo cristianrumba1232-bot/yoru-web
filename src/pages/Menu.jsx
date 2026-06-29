@@ -1,3 +1,5 @@
+import PageTransition, { FadeInSection } from '../components/PageTransition'
+
 // ── SECTION ICONS — line art, minimal ──
 const IconRoll = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -52,121 +54,42 @@ const IconCrown = () => (
   </svg>
 )
 
-const IconStar = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-  </svg>
-)
-
 // ── DATA ──
 const makis = [
-  {
-    nombre: 'Acevichado',
-    tag: 'Clásico',
-    tagType: 'gold',
-    desc: 'Langostino furai, palta',
-    cobertura: 'Cobertura de atún + salsa acevichada',
-  },
-  {
-    nombre: 'Ebi Furai',
-    tag: 'Popular',
-    tagType: 'neutral',
-    desc: 'Langostino empanizado, palta',
-    cobertura: 'Cobertura crocante',
-  },
-  {
-    nombre: 'Teriyaki Chicken',
-    tag: 'Accesible',
-    tagType: 'neutral',
-    desc: 'Pollo empanizado, queso crema, palta',
-    cobertura: 'Salsa teriyaki',
-  },
-  {
-    nombre: 'Antiku Roll',
-    tag: 'Exclusivo',
-    tagType: 'borgona',
-    desc: 'Langostino furai, palta, queso crema',
-    cobertura: 'Cobertura de salmón + salsa anticuchera ligera',
-  },
-  {
-    nombre: 'Imperial Roll',
-    tag: 'Premium',
-    tagType: 'gold',
-    desc: 'Langostino furai, queso crema, palta',
-    cobertura: 'Cobertura de salmón — salsa imperial + anguila, flameado',
-  },
+  { nombre: 'Acevichado', tag: 'Clásico', tagType: 'gold', desc: 'Langostino furai, palta', cobertura: 'Cobertura de atún + salsa acevichada' },
+  { nombre: 'Ebi Furai', tag: 'Popular', tagType: 'neutral', desc: 'Langostino empanizado, palta', cobertura: 'Cobertura crocante' },
+  { nombre: 'Teriyaki Chicken', tag: 'Accesible', tagType: 'neutral', desc: 'Pollo empanizado, queso crema, palta', cobertura: 'Salsa teriyaki' },
+  { nombre: 'Antiku Roll', tag: 'Exclusivo', tagType: 'borgona', desc: 'Langostino furai, palta, queso crema', cobertura: 'Cobertura de salmón + salsa anticuchera ligera' },
+  { nombre: 'Imperial Roll', tag: 'Premium', tagType: 'gold', desc: 'Langostino furai, queso crema, palta', cobertura: 'Cobertura de salmón — salsa imperial + anguila, flameado' },
 ]
 
 const wings = [
-  {
-    nombre: 'Anticucheras',
-    desc: 'Glaseadas con salsa anticuchera peruana',
-  },
-  {
-    nombre: 'Sriracha Honey',
-    desc: 'Picante dulce equilibrado',
-  },
-  {
-    nombre: 'BBQ Ahumadas',
-    desc: 'Salsa BBQ con perfil ahumado',
-  },
+  { nombre: 'Anticucheras', desc: 'Glaseadas con salsa anticuchera peruana' },
+  { nombre: 'Sriracha Honey', desc: 'Picante dulce equilibrado' },
+  { nombre: 'BBQ Ahumadas', desc: 'Salsa BBQ con perfil ahumado' },
 ]
 
 const bowls = [
-  {
-    nombre: 'Bowl Acevichado de Salmón',
-    desc: 'Arroz, salmón fresco, palta, chalaquita',
-    salsa: 'Salsa acevichada',
-  },
-  {
-    nombre: 'Bowl Teriyaki de Langostino',
-    desc: 'Arroz, langostino crocante, palta',
-    salsa: 'Salsa teriyaki',
-  },
+  { nombre: 'Bowl Acevichado de Salmón', desc: 'Arroz, salmón fresco, palta, chalaquita', salsa: 'Salsa acevichada' },
+  { nombre: 'Bowl Teriyaki de Langostino', desc: 'Arroz, langostino crocante, palta', salsa: 'Salsa teriyaki' },
 ]
 
 const nigiris = [
-  {
-    nombre: 'Nigiri Flambé de Salmón',
-    desc: 'Salmón flameado — toque de salsa tare + ajonjolí',
-  },
-  {
-    nombre: 'Nigiri Clásico',
-    desc: 'Selección del chef sobre arroz sazonado',
-  },
+  { nombre: 'Nigiri Flambé de Salmón', desc: 'Salmón flameado — toque de salsa tare + ajonjolí' },
+  { nombre: 'Nigiri Clásico', desc: 'Selección del chef sobre arroz sazonado' },
 ]
 
 const temakis = [
-  {
-    nombre: 'Temaki Acevichado',
-    desc: 'Langostino furai, palta, arroz — salsa acevichada',
-  },
+  { nombre: 'Temaki Acevichado', desc: 'Langostino furai, palta, arroz — salsa acevichada' },
 ]
 
 const combos = [
-  {
-    nombre: 'Combo Clásico',
-    icon: <IconFlame />,
-    desc: '2 makis + 2 bebidas',
-  },
-  {
-    nombre: 'Combo Mix',
-    icon: <IconRoll />,
-    desc: '1 maki + 6 wings nikkei',
-  },
-  {
-    nombre: 'Combo Premium',
-    icon: <IconCrown />,
-    desc: 'Imperial + Antiku + 2 bebidas',
-  },
-  {
-    nombre: 'Box Nikkei',
-    icon: <IconBox />,
-    desc: '3 makis a elegir + 6 wings nikkei',
-  },
+  { nombre: 'Combo Clásico', icon: <IconFlame />, desc: '2 makis + 2 bebidas' },
+  { nombre: 'Combo Mix', icon: <IconRoll />, desc: '1 maki + 6 wings nikkei' },
+  { nombre: 'Combo Premium', icon: <IconCrown />, desc: 'Imperial + Antiku + 2 bebidas' },
+  { nombre: 'Box Nikkei', icon: <IconBox />, desc: '3 makis a elegir + 6 wings nikkei' },
 ]
 
-// ── COMPONENTS ──
 function Seccion({ titulo, subtitulo, icon, children }) {
   return (
     <div className="menu-seccion">
@@ -184,83 +107,95 @@ function Seccion({ titulo, subtitulo, icon, children }) {
 
 export default function Menu() {
   return (
-    <div className="page menu-page">
-      <div className="menu-page-hero">
-        <h1>Carta Oficial</h1>
-        <p>Nikkei Fusión — Fase 1</p>
-      </div>
-
-      <Seccion titulo="Makis" subtitulo="6 u 8 piezas por roll" icon={<IconRoll />}>
-        <div className="menu-grid">
-          {makis.map(m => (
-            <div className="menu-card" key={m.nombre}>
-              <span className={`menu-tag menu-tag--${m.tagType}`}>{m.tag}</span>
-              <h3>{m.nombre}</h3>
-              <p>{m.desc}</p>
-              <p className="cobertura">{m.cobertura}</p>
-            </div>
-          ))}
+    <PageTransition>
+      <div className="page menu-page">
+        <div className="menu-page-hero">
+          <h1>Carta Oficial</h1>
+          <p>Nikkei Fusión — Fase 1</p>
         </div>
-      </Seccion>
 
-      <Seccion titulo="Wings Nikkei" subtitulo="Presentaciones: 6 o 12 unidades" icon={<IconFlame />}>
-        <div className="menu-grid menu-grid--3">
-          {wings.map(w => (
-            <div className="menu-card" key={w.nombre}>
-              <h3>{w.nombre}</h3>
-              <p>{w.desc}</p>
+        <FadeInSection>
+          <Seccion titulo="Makis" subtitulo="6 u 8 piezas por roll" icon={<IconRoll />}>
+            <div className="menu-grid">
+              {makis.map(m => (
+                <div className="menu-card" key={m.nombre}>
+                  <span className={`menu-tag menu-tag--${m.tagType}`}>{m.tag}</span>
+                  <h3>{m.nombre}</h3>
+                  <p>{m.desc}</p>
+                  <p className="cobertura">{m.cobertura}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Seccion>
+          </Seccion>
+        </FadeInSection>
 
-      <Seccion titulo="Bowls Nikkei" icon={<IconBowl />}>
-        <div className="menu-grid menu-grid--2">
-          {bowls.map(b => (
-            <div className="menu-card" key={b.nombre}>
-              <h3>{b.nombre}</h3>
-              <p>{b.desc}</p>
-              <p className="cobertura">{b.salsa}</p>
+        <FadeInSection>
+          <Seccion titulo="Wings Nikkei" subtitulo="Presentaciones: 6 o 12 unidades" icon={<IconFlame />}>
+            <div className="menu-grid menu-grid--3">
+              {wings.map(w => (
+                <div className="menu-card" key={w.nombre}>
+                  <h3>{w.nombre}</h3>
+                  <p>{w.desc}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Seccion>
+          </Seccion>
+        </FadeInSection>
 
-      <div className="menu-row-2">
-        <Seccion titulo="Temaki" icon={<IconCone />}>
-          <div className="menu-grid menu-grid--1">
-            {temakis.map(t => (
-              <div className="menu-card" key={t.nombre}>
-                <h3>{t.nombre}</h3>
-                <p>{t.desc}</p>
+        <FadeInSection>
+          <Seccion titulo="Bowls Nikkei" icon={<IconBowl />}>
+            <div className="menu-grid menu-grid--2">
+              {bowls.map(b => (
+                <div className="menu-card" key={b.nombre}>
+                  <h3>{b.nombre}</h3>
+                  <p>{b.desc}</p>
+                  <p className="cobertura">{b.salsa}</p>
+                </div>
+              ))}
+            </div>
+          </Seccion>
+        </FadeInSection>
+
+        <FadeInSection>
+          <div className="menu-row-2">
+            <Seccion titulo="Temaki" icon={<IconCone />}>
+              <div className="menu-grid menu-grid--1">
+                {temakis.map(t => (
+                  <div className="menu-card" key={t.nombre}>
+                    <h3>{t.nombre}</h3>
+                    <p>{t.desc}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </Seccion>
+            </Seccion>
 
-        <Seccion titulo="Nigiri" icon={<IconNigiri />}>
-          <div className="menu-grid menu-grid--1">
-            {nigiris.map(n => (
-              <div className="menu-card" key={n.nombre}>
-                <h3>{n.nombre}</h3>
-                <p>{n.desc}</p>
+            <Seccion titulo="Nigiri" icon={<IconNigiri />}>
+              <div className="menu-grid menu-grid--1">
+                {nigiris.map(n => (
+                  <div className="menu-card" key={n.nombre}>
+                    <h3>{n.nombre}</h3>
+                    <p>{n.desc}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </Seccion>
           </div>
-        </Seccion>
-      </div>
+        </FadeInSection>
 
-      <Seccion titulo="Combos" subtitulo="La clave de ventas" icon={<IconBox />}>
-        <div className="menu-grid">
-          {combos.map(c => (
-            <div className="menu-card menu-card--combo" key={c.nombre}>
-              <span className="combo-icon">{c.icon}</span>
-              <h3>{c.nombre}</h3>
-              <p>{c.desc}</p>
+        <FadeInSection>
+          <Seccion titulo="Combos" subtitulo="La clave de ventas" icon={<IconBox />}>
+            <div className="menu-grid">
+              {combos.map(c => (
+                <div className="menu-card menu-card--combo" key={c.nombre}>
+                  <span className="combo-icon">{c.icon}</span>
+                  <h3>{c.nombre}</h3>
+                  <p>{c.desc}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </Seccion>
-    </div>
+          </Seccion>
+        </FadeInSection>
+      </div>
+    </PageTransition>
   )
 }

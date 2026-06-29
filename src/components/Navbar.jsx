@@ -36,7 +36,7 @@ export default function Navbar({ onOpenReservas }) {
 
   return (
     <nav ref={navRef}>
-      <NavLink to="/" className="logo" aria-label="YORU — Nikkei Experience">
+      <NavLink to="/" className="logo" aria-label="YORU — Nikkei Experience" onClick={scrollTop}>
         <img
           src="/logos/isotipo-color.png"
           alt="YORU isotipo"
