@@ -121,6 +121,7 @@ export default function AdminLogin() {
       <div className="admin-login-box">
         <img src="/logos/isotipo-color.png" alt="YORU" className="admin-login-logo" />
         <p className="admin-login-label">夜 · Panel administrativo</p>
+        <a href="/" className="admin-back-link">← Volver al sitio</a>
         <h1 className="admin-login-title">
           {mode === 'login' ? 'Acceso restringido' : 'Crear cuenta'}
         </h1>

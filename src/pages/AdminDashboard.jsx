@@ -82,6 +82,7 @@ export default function AdminDashboard() {
         </div>
         <div className="admin-header-right">
           <span className="admin-user">{admin}</span>
+          <button className="admin-logout" onClick={() => navigate('/')}>Ir al sitio</button>
           <button className="admin-logout" onClick={handleLogout}>Cerrar sesión</button>
         </div>
       </header>
