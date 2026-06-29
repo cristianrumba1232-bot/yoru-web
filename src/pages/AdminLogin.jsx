@@ -166,7 +166,7 @@ export default function AdminLogin() {
       return
     }
 
-    setSuccess('Cuenta creada exitosamente. Ya puedes iniciar sesión.')
+    setSuccess('Cuenta creada. Ya puedes iniciar sesión.')
     switchMode('login')
   }
 
@@ -282,8 +282,8 @@ export default function AdminLogin() {
                     />
                   </div>
                   <div className="admin-code-block admin-code-block--owner">
-                    <p className="admin-code-label">Código de aprobación enviado a</p>
-                    <p className="admin-code-email">{OWNER_EMAIL}</p>
+                    <p className="admin-code-label">Código de aprobación</p>
+                    <p className="admin-code-email">Revisa el correo del administrador</p>
                     <input
                       type="text" inputMode="numeric" autoComplete="one-time-code"
                       value={ownerCode} onChange={e => setOwnerCode(e.target.value)}
