@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 
 const ZONAS = ['Salón', 'Zona Zen', 'Zona Sofás', 'Cuarto Privado Nikkei']
@@ -22,6 +22,12 @@ export default function ReservaModal({ onClose }) {
   const [form, setForm] = useState(INIT)
   const [fechaError, setFechaError] = useState('')
   const [status, setStatus] = useState('idle')
+
+  // Bloquea el scroll del fondo mientras el modal está abierto
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -54,8 +60,8 @@ export default function ReservaModal({ onClose }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="modal" onClick={e => e.stopPropagation()}>
+    <div className="modal-overlay" role="dialog" aria-modal="true">
+      <div className="modal">
         <button className="modal-close" onClick={onClose} aria-label="Cerrar">
           <IconClose />
         </button>

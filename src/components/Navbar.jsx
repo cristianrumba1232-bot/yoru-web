@@ -21,6 +21,7 @@ const IconLKD = () => (
 
 export default function Navbar({ onOpenReservas }) {
   const navRef = useRef(null)
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'instant' })
 
   useEffect(() => {
     const nav = navRef.current
@@ -45,10 +46,10 @@ export default function Navbar({ onOpenReservas }) {
       </NavLink>
 
       <ul>
-        <li><NavLink to="/" end>Inicio</NavLink></li>
-        <li><NavLink to="/historia">Historia</NavLink></li>
-        <li><NavLink to="/menu">Carta</NavLink></li>
-        <li><NavLink to="/contacto">Contacto</NavLink></li>
+        <li><NavLink to="/" end onClick={scrollTop}>Inicio</NavLink></li>
+        <li><NavLink to="/historia" onClick={scrollTop}>Historia</NavLink></li>
+        <li><NavLink to="/menu" onClick={scrollTop}>Carta</NavLink></li>
+        <li><NavLink to="/contacto" onClick={scrollTop}>Contacto</NavLink></li>
       </ul>
 
       <div className="nav-actions">

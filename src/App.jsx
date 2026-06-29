@@ -2,11 +2,15 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { checkSupabaseConnection } from './supabase'
 import Navbar from './components/Navbar'
+import ScrollToTop from './components/ScrollToTop'
 import ReservaModal from './components/ReservaModal'
+import ProtectedRoute from './components/ProtectedRoute'
 import Inicio from './pages/Inicio'
 import Menu from './pages/Menu'
 import Historia from './pages/Historia'
 import Contacto from './pages/Contacto'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/AdminDashboard'
 
 const IconIG = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -14,35 +18,17 @@ const IconIG = () => (
   </svg>
 )
 
-function App() {
-  const [reservaOpen, setReservaOpen] = useState(false)
-
-  useEffect(() => {
-    checkSupabaseConnection()
-  }, [])
-
+function PublicLayout({ children, onOpenReservas, reservaOpen, setReservaOpen }) {
   return (
-    <BrowserRouter>
-      <Navbar onOpenReservas={() => setReservaOpen(true)} />
-      <Routes>
-        <Route path="/" element={<Inicio onOpenReservas={() => setReservaOpen(true)} />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/historia" element={<Historia />} />
-        <Route path="/contacto" element={<Contacto />} />
-      </Routes>
-
+    <>
+      <Navbar onOpenReservas={onOpenReservas} />
+      {children}
       <footer className="footer">
         <div className="footer-inner">
           <div className="footer-brand">
             <p className="footer-logo">YORU</p>
             <p className="footer-tagline">La noche, servida.</p>
-            <a
-              href="https://www.instagram.com/yorunikkei"
-              target="_blank"
-              rel="noreferrer"
-              className="footer-ig"
-              aria-label="Instagram @yorunikkei"
-            >
+            <a href="https://www.instagram.com/yorunikkei" target="_blank" rel="noreferrer" className="footer-ig" aria-label="Instagram @yorunikkei">
               <IconIG />
               <span>@yorunikkei</span>
             </a>
@@ -67,8 +53,54 @@ function App() {
           <p>© 2026 YORU Nikkei Experience — Todos los derechos reservados</p>
         </div>
       </footer>
-
       {reservaOpen && <ReservaModal onClose={() => setReservaOpen(false)} />}
+    </>
+  )
+}
+
+function App() {
+  const [reservaOpen, setReservaOpen] = useState(false)
+
+  useEffect(() => {
+    checkSupabaseConnection()
+  }, [])
+
+  const openReservas = () => setReservaOpen(true)
+
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+
+        {/* ── Admin (sin navbar ni footer público) ── */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/reservas" element={
+          <ProtectedRoute><AdminDashboard /></ProtectedRoute>
+        } />
+
+        {/* ── Páginas públicas ── */}
+        <Route path="/" element={
+          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+            <Inicio onOpenReservas={openReservas} />
+          </PublicLayout>
+        } />
+        <Route path="/menu" element={
+          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+            <Menu />
+          </PublicLayout>
+        } />
+        <Route path="/historia" element={
+          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+            <Historia />
+          </PublicLayout>
+        } />
+        <Route path="/contacto" element={
+          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+            <Contacto />
+          </PublicLayout>
+        } />
+
+      </Routes>
     </BrowserRouter>
   )
 }
