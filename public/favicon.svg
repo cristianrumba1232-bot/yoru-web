@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="10" fill="#1E1E1E"/>
+  <defs>
+    <clipPath id="fav-l"><rect x="0" y="0" width="24" height="48"/></clipPath>
+    <clipPath id="fav-r"><rect x="24" y="0" width="24" height="48"/></clipPath>
+  </defs>
+  <g clip-path="url(#fav-l)">
+    <path fill-rule="evenodd" fill="#5A1E2A"
+      d="M24 6A18 18 0 1 0 24 42A18 18 0 1 0 24 6ZM26 13A11 11 0 1 0 26 35A11 11 0 1 0 26 13Z"/>
+  </g>
+  <g clip-path="url(#fav-r)">
+    <path fill-rule="evenodd" fill="#D8C3A5"
+      d="M24 6A18 18 0 1 0 24 42A18 18 0 1 0 24 6ZM26 13A11 11 0 1 0 26 35A11 11 0 1 0 26 13Z"/>
+  </g>
+</svg>
