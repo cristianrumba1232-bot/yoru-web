@@ -1,16 +1,17 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { checkSupabaseConnection } from './supabase'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import ReservaModal from './components/ReservaModal'
 import ProtectedRoute from './components/ProtectedRoute'
-import Inicio from './pages/Inicio'
-import Menu from './pages/Menu'
-import Historia from './pages/Historia'
-import Contacto from './pages/Contacto'
-import AdminLogin from './pages/AdminLogin'
-import AdminDashboard from './pages/AdminDashboard'
+
+const Inicio        = lazy(() => import('./pages/Inicio'))
+const Menu          = lazy(() => import('./pages/Menu'))
+const Historia      = lazy(() => import('./pages/Historia'))
+const Contacto      = lazy(() => import('./pages/Contacto'))
+const AdminLogin    = lazy(() => import('./pages/AdminLogin'))
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
 
 const IconIG = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -70,37 +71,39 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
+      <Suspense fallback={null}>
+        <Routes>
 
-        {/* ── Admin (sin navbar ni footer público) ── */}
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/reservas" element={
-          <ProtectedRoute><AdminDashboard /></ProtectedRoute>
-        } />
+          {/* ── Admin ── */}
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/reservas" element={
+            <ProtectedRoute><AdminDashboard /></ProtectedRoute>
+          } />
 
-        {/* ── Páginas públicas ── */}
-        <Route path="/" element={
-          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
-            <Inicio onOpenReservas={openReservas} />
-          </PublicLayout>
-        } />
-        <Route path="/menu" element={
-          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
-            <Menu />
-          </PublicLayout>
-        } />
-        <Route path="/historia" element={
-          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
-            <Historia />
-          </PublicLayout>
-        } />
-        <Route path="/contacto" element={
-          <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
-            <Contacto />
-          </PublicLayout>
-        } />
+          {/* ── Páginas públicas ── */}
+          <Route path="/" element={
+            <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+              <Inicio onOpenReservas={openReservas} />
+            </PublicLayout>
+          } />
+          <Route path="/menu" element={
+            <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+              <Menu />
+            </PublicLayout>
+          } />
+          <Route path="/historia" element={
+            <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+              <Historia />
+            </PublicLayout>
+          } />
+          <Route path="/contacto" element={
+            <PublicLayout onOpenReservas={openReservas} reservaOpen={reservaOpen} setReservaOpen={setReservaOpen}>
+              <Contacto />
+            </PublicLayout>
+          } />
 
-      </Routes>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

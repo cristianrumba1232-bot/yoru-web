@@ -4,13 +4,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    chunkSizeWarningLimit: 1000,
-    rolldownOptions: {
-      output: {
-        codeSplitting: {
-          strategy: 'granular'
-        }
-      }
-    }
+    chunkSizeWarningLimit: 700,
   }
 })
