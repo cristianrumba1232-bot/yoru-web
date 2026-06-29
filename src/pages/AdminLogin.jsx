@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabase'
 
-const OWNER_EMAIL = 'christian_laura123@hotmail.com'
+const CODIGO_ACCESO = 'YORU2026#ADMIN'
 
 function EyeIcon({ open }) {
   return open ? (
@@ -58,12 +58,10 @@ export default function AdminLogin() {
   const [loginPass,  setLoginPass]  = useState('')
 
   // Registro
-  const [regEmail,     setRegEmail]     = useState('')
-  const [regPass,      setRegPass]      = useState('')
-  const [regConfirm,   setRegConfirm]   = useState('')
-  const [newEmailCode, setNewEmailCode] = useState('')
-  const [ownerCode,    setOwnerCode]    = useState('')
-  const [codesSent,    setCodesSent]    = useState(false)
+  const [regEmail,   setRegEmail]   = useState('')
+  const [regPass,    setRegPass]    = useState('')
+  const [regConfirm, setRegConfirm] = useState('')
+  const [regCodigo,  setRegCodigo]  = useState('')
 
   const [error,   setError]   = useState('')
   const [success, setSuccess] = useState('')
@@ -81,11 +79,13 @@ export default function AdminLogin() {
     else navigate('/admin/reservas')
   }
 
-  // ── REGISTRO paso 1: enviar códigos a ambos correos ───────────────────────
-  async function sendCodes() {
+  // ── REGISTRO ───────────────────────────────────────────────────────────────
+  async function handleRegister(e) {
+    e.preventDefault()
     setError('')
-    if (!regEmail || !regPass || !regConfirm) {
-      setError('Completa todos los campos antes de solicitar los códigos.')
+
+    if (regCodigo !== CODIGO_ACCESO) {
+      setError('Código de acceso incorrecto.')
       return
     }
     if (regPass !== regConfirm) {
@@ -98,94 +98,22 @@ export default function AdminLogin() {
     }
 
     setLoading(true)
-
-    const { error: e1 } = await supabase.auth.signInWithOtp({
-      email: regEmail,
-      options: { shouldCreateUser: true }
-    })
-    if (e1) {
-      setLoading(false)
-      setError('No se pudo enviar el código al correo nuevo: ' + e1.message)
-      return
-    }
-
-    const { error: e2 } = await supabase.auth.signInWithOtp({
-      email: OWNER_EMAIL,
-      options: { shouldCreateUser: true }
-    })
+    const { error } = await supabase.auth.signUp({ email: regEmail, password: regPass })
     setLoading(false)
-    if (e2) {
-      setError('No se pudo enviar el código de aprobación: ' + e2.message)
-      return
+
+    if (error) setError('Error al crear la cuenta: ' + error.message)
+    else {
+      setSuccess('Cuenta creada. Ya puedes iniciar sesión.')
+      switchMode('login')
     }
-
-    setCodesSent(true)
-  }
-
-  // ── REGISTRO paso 2: verificar ambos códigos y crear la cuenta ─────────────
-  async function handleRegister(e) {
-    e.preventDefault()
-    setError('')
-
-    if (!newEmailCode.trim() || !ownerCode.trim()) {
-      setError('Debes ingresar ambos códigos de verificación.')
-      return
-    }
-
-    setLoading(true)
-
-    const { error: ownerErr } = await supabase.auth.verifyOtp({
-      email: OWNER_EMAIL,
-      token: ownerCode.trim(),
-      type: 'email'
-    })
-    if (ownerErr) {
-      setLoading(false)
-      setError('Código de aprobación incorrecto o expirado.')
-      return
-    }
-    await supabase.auth.signOut()
-
-    const { error: newErr } = await supabase.auth.verifyOtp({
-      email: regEmail,
-      token: newEmailCode.trim(),
-      type: 'email'
-    })
-    if (newErr) {
-      setLoading(false)
-      setError('Código del correo nuevo incorrecto o expirado.')
-      return
-    }
-
-    const { error: passErr } = await supabase.auth.updateUser({ password: regPass })
-    await supabase.auth.signOut()
-
-    setLoading(false)
-    if (passErr) {
-      setError('Error al establecer contraseña: ' + passErr.message)
-      return
-    }
-
-    setSuccess('Cuenta creada. Ya puedes iniciar sesión.')
-    switchMode('login')
-  }
-
-  function resetRegister() {
-    setRegEmail('')
-    setRegPass('')
-    setRegConfirm('')
-    setNewEmailCode('')
-    setOwnerCode('')
-    setCodesSent(false)
   }
 
   function switchMode(m) {
     setMode(m)
     setError('')
     setSuccess('')
-    resetRegister()
-    setLoginEmail('')
-    setLoginPass('')
+    setLoginEmail(''); setLoginPass('')
+    setRegEmail(''); setRegPass(''); setRegConfirm(''); setRegCodigo('')
   }
 
   return (
@@ -217,13 +145,8 @@ export default function AdminLogin() {
             </div>
             <div className="form-field">
               <label htmlFor="al-pass">Contraseña</label>
-              <PasswordInput
-                id="al-pass"
-                value={loginPass}
-                onChange={e => setLoginPass(e.target.value)}
-                placeholder="••••••••"
-                autoComplete="current-password"
-              />
+              <PasswordInput id="al-pass" value={loginPass} onChange={e => setLoginPass(e.target.value)}
+                placeholder="••••••••" autoComplete="current-password" />
             </div>
             {error   && <p className="form-error">{error}</p>}
             {success && <p className="form-success">{success}</p>}
@@ -237,76 +160,32 @@ export default function AdminLogin() {
         {mode === 'register' && (
           <form onSubmit={handleRegister} className="admin-login-form" noValidate>
             <div className="form-field">
-              <label htmlFor="ar-email">Correo de la nueva cuenta</label>
+              <label htmlFor="ar-email">Correo</label>
               <input id="ar-email" type="email" required autoComplete="off"
                 value={regEmail} onChange={e => setRegEmail(e.target.value)}
-                placeholder="correo@ejemplo.com" disabled={codesSent} />
+                placeholder="correo@ejemplo.com" />
             </div>
             <div className="form-field">
               <label htmlFor="ar-pass">Contraseña</label>
-              <PasswordInput
-                id="ar-pass"
-                value={regPass}
-                onChange={e => setRegPass(e.target.value)}
-                placeholder="Mínimo 8 caracteres"
-                autoComplete="new-password"
-                disabled={codesSent}
-              />
+              <PasswordInput id="ar-pass" value={regPass} onChange={e => setRegPass(e.target.value)}
+                placeholder="Mínimo 8 caracteres" autoComplete="new-password" />
             </div>
             <div className="form-field">
               <label htmlFor="ar-confirm">Confirmar contraseña</label>
-              <PasswordInput
-                id="ar-confirm"
-                value={regConfirm}
-                onChange={e => setRegConfirm(e.target.value)}
-                placeholder="Repite la contraseña"
-                autoComplete="new-password"
-                disabled={codesSent}
-              />
+              <PasswordInput id="ar-confirm" value={regConfirm} onChange={e => setRegConfirm(e.target.value)}
+                placeholder="Repite la contraseña" autoComplete="new-password" />
             </div>
-
-            {!codesSent ? (
-              <button type="button" className="btn btn--borgona btn--full" onClick={sendCodes} disabled={loading}>
-                {loading ? 'Enviando códigos...' : 'Enviar códigos de verificación'}
-              </button>
-            ) : (
-              <>
-                <div className="admin-codes-grid">
-                  <div className="admin-code-block">
-                    <p className="admin-code-label">Código enviado a</p>
-                    <p className="admin-code-email">{regEmail}</p>
-                    <input
-                      type="text" inputMode="numeric" autoComplete="one-time-code"
-                      value={newEmailCode} onChange={e => setNewEmailCode(e.target.value)}
-                      placeholder="Código del correo nuevo"
-                    />
-                  </div>
-                  <div className="admin-code-block admin-code-block--owner">
-                    <p className="admin-code-label">Código de aprobación</p>
-                    <p className="admin-code-email">Revisa el correo del administrador</p>
-                    <input
-                      type="text" inputMode="numeric" autoComplete="one-time-code"
-                      value={ownerCode} onChange={e => setOwnerCode(e.target.value)}
-                      placeholder="Código de aprobación"
-                    />
-                  </div>
-                </div>
-
-                <div className="admin-reg-actions">
-                  <button type="button" className="btn btn--outline"
-                    onClick={() => { setCodesSent(false); setNewEmailCode(''); setOwnerCode(''); setError('') }}
-                    disabled={loading}>
-                    Reenviar
-                  </button>
-                  <button type="submit" className="btn btn--borgona" disabled={loading}>
-                    {loading ? 'Verificando...' : 'Crear cuenta'}
-                  </button>
-                </div>
-              </>
-            )}
-
+            <div className="form-field">
+              <label htmlFor="ar-codigo">Código de acceso</label>
+              <input id="ar-codigo" type="password" required
+                value={regCodigo} onChange={e => setRegCodigo(e.target.value)}
+                placeholder="Código proporcionado por el administrador" />
+            </div>
             {error   && <p className="form-error">{error}</p>}
             {success && <p className="form-success">{success}</p>}
+            <button type="submit" className="btn btn--borgona btn--full" disabled={loading}>
+              {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+            </button>
           </form>
         )}
       </div>
