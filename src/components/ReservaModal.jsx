@@ -10,6 +10,11 @@ const IconClose = () => (
   </svg>
 )
 
+function validarTelefono(tel) {
+  const limpio = tel.replace(/[\s\-\(\)\+]/g, '')
+  return /^\d{7,15}$/.test(limpio)
+}
+
 function getMinDate() {
   const d = new Date()
   d.setDate(d.getDate() + 1)
@@ -203,6 +208,13 @@ export default function ReservaModal({ onClose }) {
     return () => { document.body.style.overflow = '' }
   }, [])
 
+  // Validar personas vs zona en cuanto cambia zona o personas, sin esperar fecha
+  useEffect(() => {
+    if (!form.zona) { setPersonasError(''); return }
+    const err = getPersonasError(form.zona, Number(form.personas))
+    setPersonasError(err || '')
+  }, [form.zona, form.personas])
+
   useEffect(() => {
     if (!form.zona || !form.fecha) {
       setDisponibilidad([])
@@ -286,6 +298,10 @@ export default function ReservaModal({ onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    if (!form.nombre.trim()) { setErrorMsg('Por favor ingresa tu nombre.'); return }
+    if (!form.telefono.trim()) { setErrorMsg('Por favor ingresa tu teléfono.'); return }
+    if (!validarTelefono(form.telefono)) { setErrorMsg('El número de teléfono no es válido. Ingresa entre 7 y 15 dígitos.'); return }
+    if (!form.zona) { setErrorMsg('Por favor selecciona una zona.'); return }
     if (!form.fecha || !form.hora) return
     setStatus('loading')
     setErrorMsg('')
