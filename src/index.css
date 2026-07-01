@@ -1355,6 +1355,48 @@ button[disabled] {
   min-height: 68px;
 }
 
+.form-checking {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.hora-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.hora-btn {
+  padding: 0.5rem 0.25rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--arena);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-family: inherit;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.hora-btn:hover:not(:disabled) {
+  border-color: var(--borgona);
+  color: var(--borgona);
+}
+
+.hora-btn--selected {
+  background: var(--borgona) !important;
+  border-color: var(--borgona) !important;
+  color: #fff !important;
+}
+
+.hora-btn--ocupada {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
 .form-optional {
   color: var(--muted);
   font-size: 0.66rem;
@@ -1568,6 +1610,14 @@ button[disabled] {
   font-size: 1.35rem;
   color: var(--arena);
   letter-spacing: 2px;
+}
+
+.modal-success-spam {
+  font-size: 0.82rem !important;
+  color: #888 !important;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 .modal-success p {
@@ -1981,6 +2031,12 @@ footer.footer {
 .admin-card-zona {
   color: var(--arena);
   opacity: 0.7;
+}
+
+.admin-card-mesa {
+  color: var(--borgona);
+  font-weight: 600;
+  font-size: 0.82rem;
 }
 
 .admin-card-platos {

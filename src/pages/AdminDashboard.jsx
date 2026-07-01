@@ -140,6 +140,7 @@ export default function AdminDashboard() {
                         <span>📞 {r.telefono}</span>
                         <span>👥 {r.personas} {r.personas === 1 ? 'persona' : 'personas'}</span>
                         <span className="admin-card-zona">{r.zona}</span>
+                        {r.mesa && <span className="admin-card-mesa">🪑 {r.mesa}</span>}
                       </div>
                       {r.platos && (
                         <p className="admin-card-platos">🍱 {r.platos}</p>
